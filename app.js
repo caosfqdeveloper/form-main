@@ -15,9 +15,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const formulario = document.querySelector("#formulario");
   const btnSubmit = document.querySelector('#formulario button[type="submit"]');
   const btnReset = document.querySelector('#formulario button[type="reset"]');
-  const spinner = document.querySelector('#spinner');
-
- 
+  const spinner = document.querySelector("#spinner");
 
   //Asignar eventos
   inputEmail.addEventListener("input", validar);
@@ -25,29 +23,23 @@ document.addEventListener("DOMContentLoaded", function () {
   inputTelefono.addEventListener("input", validar);
   inputMensaje.addEventListener("input", validar);
 
-  formulario.addEventListener('submit', enviarEmail);
-  
-  btnReset.addEventListener('click', function(e){
+  formulario.addEventListener("submit", enviarEmail);
+
+  btnReset.addEventListener("click", function (e) {
     e.preventDefault();
 
     //reiniciar el objeto
-    email.email = '';
-    email.nombre = '';
-    email.telefono = '';
-    email.mensaje = '';
+    email.email = "";
+    email.nombre = "";
+    email.telefono = "";
+    email.mensaje = "";
 
     formulario.reset();
     comprobarEmail();
-  })
+  });
 
-  function enviarEmail(e){
+  function enviarEmail(e) {
     e.preventDefault();
-  
-    
-     
-   
-
-
 
     //enviar email
     email.email = inputEmail.value;
@@ -60,6 +52,23 @@ document.addEventListener("DOMContentLoaded", function () {
     formulario.reset();
     comprobarEmail();
 
+  // Deshabilitar el botón de envío después de enviar el formulario
+  btnSubmit.disabled = true;
+
+    // Crear una Alerta
+    const alertaExito = document.createElement('P');
+    alertaExito.classList.add('bg-primary', 'text-white', 'text-center', 'mt-1', 'py-1', 'upercase');
+    alertaExito.textContent = "Mensaje enviado correctamente";
+
+     formulario.appendChild(alertaExito);
+
+     setTimeout(() => {
+      alertaExito.remove();
+    // Habilitar el botón de envío cuando se elimine la alerta
+    btnSubmit.disabled = false;
+     }, 3000);
+
+  
   }
   //Funciones
   function validar(e) {
@@ -68,13 +77,13 @@ document.addEventListener("DOMContentLoaded", function () {
         `El campo ${e.target.id} es obligatorio`,
         e.target.parentElement
       );
-      email[e.target.id] = '';
+      email[e.target.id] = "";
       comprobarEmail();
       return;
     }
     if (e.target.id === "email" && !validarEmail(e.target.value)) {
       mostrarAlerta("El email no es valido", e.target.parentElement);
-      email[e.target.id] = '';
+      email[e.target.id] = "";
       comprobarEmail();
       return;
     }
@@ -134,15 +143,12 @@ document.addEventListener("DOMContentLoaded", function () {
   }
   function comprobarEmail() {
     if (Object.values(email).includes("")) {
-      btnSubmit.classList.add('opacity-50');
+      btnSubmit.classList.add("opacity-50");
       btnSubmit.disabled = true;
       return;
-      
-    } else{
-      btnSubmit.classList.remove('opacity-50');
+    } else {
+      btnSubmit.classList.remove("opacity-50");
       btnSubmit.disabled = false;
-
-
     }
   }
 });
